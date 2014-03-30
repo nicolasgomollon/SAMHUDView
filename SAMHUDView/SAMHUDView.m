@@ -11,6 +11,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+static SAMHUDWindow *kHUDWindow = nil;
 static CGFloat kIndicatorSize = 40.0f;
 
 @interface SAMHUDView ()
@@ -78,7 +79,10 @@ static CGFloat kIndicatorSize = 40.0f;
 
 
 - (SAMHUDWindow *)hudWindow {
-	return [SAMHUDWindow defaultWindow];
+	if (!kHUDWindow) {
+		kHUDWindow = [[SAMHUDWindow alloc] init];
+	}
+	return kHUDWindow;
 }
 
 
@@ -425,6 +429,7 @@ static CGFloat kIndicatorSize = 40.0f;
 	// Return focus to the main window
 	[self.keyWindow makeKeyWindow];
 	self.keyWindow = nil;
+	kHUDWindow = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
