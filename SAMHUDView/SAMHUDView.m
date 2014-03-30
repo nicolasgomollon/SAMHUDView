@@ -3,11 +3,12 @@
 //  SAMHUDView
 //
 //  Created by Sam Soffes on 9/29/09.
-//  Copyright 2009-2013 Sam Soffes. All rights reserved.
+//  Copyright 2009-2014 Sam Soffes. All rights reserved.
 //
 
 #import "SAMHUDView.h"
 #import "SAMHUDWindow.h"
+#import "SAMHUDWindowViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -234,7 +235,10 @@ static CGFloat kIndicatorSize = 40.0f;
 		// Unable to get main window from app delegate
 		self.keyWindow = [[UIApplication sharedApplication] keyWindow];
 	}
-	
+
+	SAMHUDWindowViewController *viewController = (SAMHUDWindowViewController *)self.hudWindow.rootViewController;
+	viewController.statusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
+
 	self.hudWindow.alpha = 0.0f;
 	self.alpha = 0.0f;
 	[self.hudWindow addSubview:self];
