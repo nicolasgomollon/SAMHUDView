@@ -94,7 +94,7 @@ class SAMHUDView: UIView {
 	}
 	set {
 		_loading = newValue
-		activityIndicator.alpha = _loading ? 1.0 : 0.0;
+		activityIndicator.alpha = _loading ? 1.0 : 0.0
 		setNeedsDisplay()
 	}
 	}
