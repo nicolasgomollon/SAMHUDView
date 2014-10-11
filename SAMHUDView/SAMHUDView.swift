@@ -33,8 +33,17 @@ class SAMHUDWindow: UIWindow {
 	}
 	}
 	
-	init() {
+	override init() {
 		super.init(frame: UIScreen.mainScreen().bounds)
+		initialize()
+	}
+	
+	required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+		initialize()
+	}
+	
+	func initialize() {
 		backgroundColor = UIColor.clearColor()
 		windowLevel = UIWindowLevelStatusBar + 1.0
 		rootViewController = SAMHUDWindowViewController()
@@ -57,13 +66,13 @@ class SAMHUDWindow: UIWindow {
 
 class SAMHUDView: UIView {
 	
-	let kIndicatorSize = 40.0
+	let kIndicatorSize: CGFloat = 40.0
 	
 	var hudSize = CGSizeMake(172.0, 172.0)
 	
 	var successful = false
 	var completeImage: UIImage? = UIImage(named: "SAMHUDView-Check")
-	var failImage: UIImage? = UIImage(named: "SAMHUDView-X")
+	var failImage: UIImage? = UIImage(named: "SAMHUDView-Cross")
 	
 	var _textLabel: UILabel?
 	var textLabel: UILabel {
@@ -118,7 +127,7 @@ class SAMHUDView: UIView {
 	var keyWindow: UIWindow! {
 		let application = UIApplication.sharedApplication()
 		let delegate = application.delegate
-		if let window = delegate.window {
+		if let window = delegate?.window {
 			return window
 		}
 		// Unable to get main window from app delegate
@@ -155,15 +164,20 @@ class SAMHUDView: UIView {
 		self.init(title: title, loading: true)
 	}
 	
-	convenience init() {
+	convenience override init() {
 		self.init(title: nil, loading: true)
 	}
 	
-	func show(title: String?) {
-		show(title, loading: true)
+	required init(coder aDecoder: NSCoder) {
+		_loading = true
+		super.init(coder: aDecoder)
 	}
 	
-	func show(title: String?, loading: Bool) {
+	func show(#title: String?) {
+		show(title: title, loading: true)
+	}
+	
+	func show(#title: String?, loading: Bool) {
 		if let title = title {
 			textLabel.text = title
 		} else {
@@ -189,7 +203,7 @@ class SAMHUDView: UIView {
 		let windowSize = hudWindow.frame.size
 		var contentFrame = CGRectMake(round((windowSize.width - hudSize.width) / 2.0), round((windowSize.height - hudSize.height) / 2.0) + 10.0, hudSize.width, hudSize.height)
 		
-		let offset = 20.0
+		let offset: CGFloat = 20.0
 		if UIInterfaceOrientationIsPortrait(UIApplication.sharedApplication().statusBarOrientation) {
 			contentFrame.origin.y += offset
 		} else {
@@ -257,12 +271,12 @@ class SAMHUDView: UIView {
 	}
 	
 	func dismiss(#animated: Bool) {
-		if !superview { return }
+		if superview == nil { return }
 		
 		UIView.beginAnimations("SAMHUDViewFadeOutContentFrame", context: nil)
 		UIView.setAnimationDuration(0.2)
 		var contentFrame = frame
-		let offset = 20.0
+		let offset: CGFloat = 20.0
 		if UIInterfaceOrientationIsPortrait(UIApplication.sharedApplication().statusBarOrientation) {
 			contentFrame.origin.y += offset
 		} else {
@@ -337,7 +351,8 @@ extension SAMHUDView {
 			var style = NSMutableParagraphStyle()
 			style.lineBreakMode = textLabel.lineBreakMode
 			
-			let textSize = NSString(string: textLabel.text).boundingRectWithSize(CGSizeMake(bounds.size.width, CGFLOAT_MAX), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: textLabel.font, NSParagraphStyleAttributeName: style], context: nil).size
+			let text = textLabel.text ?? ""
+			let textSize = NSString(string: text).boundingRectWithSize(CGSizeMake(bounds.size.width, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: textLabel.font, NSParagraphStyleAttributeName: style], context: nil).size
 			textLabel.frame = CGRectMake(0.0, round(hudSize.height - textSize.height - 10.0), hudSize.width, textSize.height)
 		}
 	}
@@ -362,7 +377,7 @@ extension SAMHUDView {
 			rotation = 0.0
 		}
 		
-		let rotationTransform = CGAffineTransformMakeRotation(rotation)
+		let rotationTransform = CGAffineTransformMakeRotation(CGFloat(rotation))
 		
 		if animated {
 			UIView.beginAnimations("SAMHUDViewRotationTransform", context: nil)

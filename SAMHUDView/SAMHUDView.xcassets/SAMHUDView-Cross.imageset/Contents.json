@@ -3,12 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "SAMHUDView-X.png"
+      "filename" : "SAMHUDView-Cross.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "SAMHUDView-X@2x.png"
+      "filename" : "SAMHUDView-Cross@2x.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x",
+      "filename" : "SAMHUDView-Cross@3x.png"
     }
   ],
   "info" : {
