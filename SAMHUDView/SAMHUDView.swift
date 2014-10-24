@@ -21,14 +21,9 @@ class SAMHUDWindowViewController: UIViewController {
 
 class SAMHUDWindow: UIWindow {
 	
-	var _hidesVignette = false
-	var hidesVignette: Bool {
-	get {
-		return _hidesVignette
-	}
-	set {
-		_hidesVignette = newValue
-		userInteractionEnabled = !newValue
+	var hidesVignette: Bool = false {
+	didSet {
+		userInteractionEnabled = !hidesVignette
 		setNeedsDisplay()
 	}
 	}
@@ -43,7 +38,7 @@ class SAMHUDWindow: UIWindow {
 		initialize()
 	}
 	
-	func initialize() {
+	private func initialize() {
 		backgroundColor = .clearColor()
 		windowLevel = UIWindowLevelStatusBar + 1.0
 		rootViewController = SAMHUDWindowViewController()
@@ -96,14 +91,9 @@ class SAMHUDView: UIView {
 		return _activityIndicator!
 	}
 	
-	var _loading: Bool
 	var loading: Bool {
-	get {
-		return _loading
-	}
-	set {
-		_loading = newValue
-		activityIndicator.alpha = _loading ? 1.0 : 0.0
+	didSet {
+		activityIndicator.alpha = loading ? 1.0 : 0.0
 		setNeedsDisplay()
 	}
 	}
@@ -142,7 +132,7 @@ class SAMHUDView: UIView {
 	}
 	
 	init(title: String?, loading: Bool) {
-		_loading = loading
+		self.loading = loading
 		
 		super.init(frame: CGRectZero)
 		backgroundColor = .clearColor()
@@ -169,7 +159,7 @@ class SAMHUDView: UIView {
 	}
 	
 	required init(coder aDecoder: NSCoder) {
-		_loading = true
+		loading = true
 		super.init(coder: aDecoder)
 	}
 	
@@ -312,6 +302,7 @@ class SAMHUDView: UIView {
 
 // MARK: UIView
 extension SAMHUDView {
+	
 	override func drawRect(rect: CGRect)  {
 		let context = UIGraphicsGetCurrentContext()
 		
@@ -360,7 +351,8 @@ extension SAMHUDView {
 }
 
 // MARK: Private
-extension SAMHUDView {
+private extension SAMHUDView {
+	
 	func setTransformForCurrentOrientation(animated: Bool) {
 		var rotation: Double
 		
