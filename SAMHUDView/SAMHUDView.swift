@@ -44,7 +44,7 @@ class SAMHUDWindow: UIWindow {
 	}
 	
 	func initialize() {
-		backgroundColor = UIColor.clearColor()
+		backgroundColor = .clearColor()
 		windowLevel = UIWindowLevelStatusBar + 1.0
 		rootViewController = SAMHUDWindowViewController()
 	}
@@ -78,9 +78,9 @@ class SAMHUDView: UIView {
 	var textLabel: UILabel {
 		if let textLabel = _textLabel { return textLabel }
 		_textLabel = UILabel()
-		_textLabel!.font = UIFont.boldSystemFontOfSize(14.0)
-		_textLabel!.backgroundColor = UIColor.clearColor()
-		_textLabel!.textColor = UIColor.whiteColor()
+		_textLabel!.font = .boldSystemFontOfSize(14.0)
+		_textLabel!.backgroundColor = .clearColor()
+		_textLabel!.textColor = .whiteColor()
 		_textLabel!.shadowColor = UIColor(white: 0.0, alpha: 0.7)
 		_textLabel!.shadowOffset = CGSizeMake(0.0, 1.0)
 		_textLabel!.textAlignment = .Center
@@ -145,7 +145,7 @@ class SAMHUDView: UIView {
 		_loading = loading
 		
 		super.init(frame: CGRectZero)
-		backgroundColor = UIColor.clearColor()
+		backgroundColor = .clearColor()
 		
 		activityIndicator.startAnimating()
 		addSubview(activityIndicator)
