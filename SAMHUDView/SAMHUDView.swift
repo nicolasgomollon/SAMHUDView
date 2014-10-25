@@ -213,7 +213,7 @@ class SAMHUDView: UIView {
 		frame = contentFrame
 		UIView.commitAnimations()
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "_deviceOrientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: nil)
 	}
 	
 	func complete() {
@@ -351,9 +351,9 @@ extension SAMHUDView {
 }
 
 // MARK: Private
-private extension SAMHUDView {
+extension SAMHUDView {
 	
-	func setTransformForCurrentOrientation(animated: Bool) {
+	private func setTransformForCurrentOrientation(animated: Bool) {
 		var rotation: Double
 		
 		switch UIApplication.sharedApplication().statusBarOrientation {
@@ -383,12 +383,12 @@ private extension SAMHUDView {
 		}
 	}
 	
-	func deviceOrientationChanged(notification: NSNotification) {
+	func _deviceOrientationChanged(notification: NSNotification) {
 		setTransformForCurrentOrientation(true)
 		setNeedsDisplay()
 	}
 	
-	func removeWindow() {
+	private func removeWindow() {
 		removeFromSuperview()
 		hudWindow.resignKeyWindow()
 		
